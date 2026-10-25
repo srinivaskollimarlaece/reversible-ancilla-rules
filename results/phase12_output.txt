@@ -1,0 +1,84 @@
+Phase 12: tool comparison and compiled-circuit measures
+
+B. Clifford+T and PyZX (T-count / T-depth)
+  Design        Bits Version  Est. T Tof. depth     T  T-depth  PyZX T  PyZX T-depth  PyZX CX
+  cla4_blocks      4   built      98          7    98       27      82            25      210
+  cla4_blocks      4  global      77          5    77       19      63            24      179
+  tsg_rca          4   built      84          6    84       24      76            22      101
+  tsg_rca          4  global      56          5    56       20      32            14       80
+  peres_rca        4   built      56          5    56       20      32            14       80
+  peres_rca        4  global      56          5    56       20      32            14       80
+  cuccaro          4   built      56          8    56       32      32            19       88
+  cuccaro          4  global      49          7    49       28      31            21       62
+  vbe              4   built      98         11    98       41      32            22      100
+  vbe              4  global      84          9    84       34      32            19       86
+  draper_qcla      4   built      70          6    70       22      48            18      116
+  draper_qcla      4  global      70          6    70       22      48            18      116
+  hybrid           4   built      70          5    70       19      48            17      135
+  hybrid           4  global      70          5    70       19      48            17      135
+  cla4_blocks      8   built     196         13   196       51     164            48      384
+  cla4_blocks      8  global     154          9   154       35     126            45      329
+  tsg_rca          8   built     168         10   168       40     152            42      213
+  tsg_rca          8  global     112          9   112       36      64            28      177
+  peres_rca        8   built     112          9   112       36      64            28      177
+  peres_rca        8  global     112          9   112       36      64            28      177
+  cuccaro          8   built     112         16   112       64      64            39      170
+  cuccaro          8  global     105         15   105       60      63            39      155
+  vbe              8   built     210         23   210       85      64            43      170
+  vbe              8  global     196         21   196       78      64            41      188
+  draper_qcla      8   built     189          8   189       30     129            34      345
+  draper_qcla      8  global     189          8   189       30     129            34      345
+  hybrid           8   built     168          7   168       27     122            29      320
+  hybrid           8  global     168          7   168       27     122            29      320
+  cla4_blocks     16   built     392         25   392       99     328            89      842
+  cla4_blocks     16  global     308         17   308       67     252            73      641
+  tsg_rca         16   built     336         18   336       72     304            58      442
+  tsg_rca         16  global     224         17   224       68     128            55      353
+  peres_rca       16   built     224         17   224       68     128            55      353
+  peres_rca       16  global     224         17   224       68     128            55      353
+  cuccaro         16   built     224         32   224      128     128            78      322
+  cuccaro         16  global     217         31   217      124     127            88      334
+  vbe             16   built     434         47   434      173     128            84      419
+  vbe             16  global     420         45   420      166     128            85      396
+  draper_qcla     16   built     448         10   448       38     306            48      739
+  draper_qcla     16  global     448         10   448       38     306            48      739
+  hybrid          16   built     378          9   378       34     280            62      698
+  hybrid          16  global     378          9   378       34     280            62      698
+  cla4_blocks     32   built     784         49   784      195     656           147     1588
+  cla4_blocks     32  global     616         33   616      131     504           151     1338
+  tsg_rca         32   built     672         34   672      136     608           101      840
+  tsg_rca         32  global     448         33   448      132     256           100      716
+  peres_rca       32   built     448         33   448      132     256           100      716
+  peres_rca       32  global     448         33   448      132     256           100      716
+  cuccaro         32   built     448         64   448      256     256           166      684
+  cuccaro         32  global     441         63   441      252     255           162      657
+  vbe             32   built     882         95   882      349     256           168      943
+  vbe             32  global     868         93   868      342     256           172     1016
+  draper_qcla     32   built     987         12   987       46     675            88     1709
+  draper_qcla     32  global     987         12   987       46     675            88     1709
+  hybrid          32   built     812         11   812       41     606            81     1576
+  hybrid          32  global     812         11   812       41     606            81     1576
+
+C. PyZX output against the original circuit (random basis inputs, state vectors)
+  18 circuits, 8 random inputs each: identical state vectors
+
+D. Heavy-hex mapping (Qiskit, optimization level 3, 193-qubit heavy-hex map)
+  Design        Bits  Lines      CX  CX depth   Depth
+  cla4_blocks      8     47     330       134     240
+  tsg_rca          8     25     139        66     152
+  peres_rca        8     25     139        66     152
+  cuccaro          8     18     233       195     380
+  vbe              8     25     316       245     434
+  draper_qcla      8     29     388       116     202
+  hybrid           8     29     304        92     163
+  cla4_blocks     32    185    1963       612     979
+  tsg_rca         32     97     928       436     702
+  peres_rca       32     97     928       436     702
+  cuccaro         32     66    1085       904    1681
+  vbe             32     97    1826      1246    2153
+  draper_qcla     32    123    2585       272     415
+  hybrid          32    123    2072       284     428
+
+Time: 1202.2 s
+
+All checks passed.

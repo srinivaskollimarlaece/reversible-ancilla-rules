@@ -1,0 +1,175 @@
+Phase 8: extensions
+
+A. Decision-diagram backend against the enumerating backend
+  300 random designs: identical simplified circuits         PASS  300/300
+  The three 4-bit adders of Phase 5: identical              PASS
+
+B. Exact proof of every design (all inputs, by decision diagrams)
+  CLA blocks (Kumar style) (garbage style), 4 to 32 bits    PASS
+  TSG ripple-carry (garbage style), 4 to 32 bits            PASS
+  Peres ripple-carry (garbage style), 4 to 32 bits          PASS
+  Cuccaro ripple-carry (clean style), 4 to 32 bits          PASS
+  VBE ripple-carry (clean style), 4 to 32 bits              PASS
+  Draper carry look-ahead (clean style), 4 to 32 bits       PASS
+  Draper adder: Toffoli and ancilla counts match the paper  PASS  5n - 3w(n) - 3 floor(log n) - 1 Toffoli gates
+
+C. Resources as built
+  Design                     Bits  Lines  Gates   Cost  T-count  Ancilla  Depth  Toffoli depth
+  CLA blocks (Kumar style)      4     24     38     94       98       15     13              7
+  CLA blocks (Kumar style)      8     47     76    188      196       30     24             13
+  CLA blocks (Kumar style)     16     93    152    376      392       60     46             25
+  CLA blocks (Kumar style)     32    185    304    752      784      120     90             49
+  TSG ripple-carry              4     13     20     68       84        4      8              6
+  TSG ripple-carry              8     25     40    136      168        8     12             10
+  TSG ripple-carry             16     49     80    272      336       16     20             18
+  TSG ripple-carry             32     97    160    544      672       32     36             34
+  Peres ripple-carry            4     13     16     48       56        4      7              5
+  Peres ripple-carry            8     25     32     96      112        8     11              9
+  Peres ripple-carry           16     49     64    192      224       16     19             17
+  Peres ripple-carry           32     97    128    384      448       32     35             33
+  Cuccaro ripple-carry          4     10     25     57       56        2     22              8
+  Cuccaro ripple-carry          8     18     49    113      112        2     42             16
+  Cuccaro ripple-carry         16     34     97    225      224        2     82             32
+  Cuccaro ripple-carry         32     66    193    449      448        2    162             64
+  VBE ripple-carry              4     13     30     86       98        5     24             11
+  VBE ripple-carry              8     25     62    182      210        9     48             23
+  VBE ripple-carry             16     49    126    374      434       17     96             47
+  VBE ripple-carry             32     97    254    758      882       33    192             95
+  Draper carry look-ahead       4     14     21     61       70        6      9              6
+  Draper carry look-ahead       8     29     50    158      189       13     11              8
+  Draper carry look-ahead      16     60    111    367      448       28     13             10
+  Draper carry look-ahead      32    123    236    800      987       59     15             12
+  T-count = 7 per two-control gate. Toffoli depth counts only two-control gates.
+
+D. Rule-based optimizer and full simplification
+  Design                     Bits |   Cost  Rules   All  Saved % |      Gates    T-count  Ancilla    Depth Tof. depth  Result
+  CLA blocks (Kumar style)      4 |     94     94    71     24.5 |     38->27     98->77   15->12   13->10       7->5  PASS
+  CLA blocks (Kumar style)      8 |    188    188   142     24.5 |     76->54   196->154   30->24   24->17      13->9  PASS
+  CLA blocks (Kumar style)     16 |    376    376   284     24.5 |   152->108   392->308   60->48   46->31     25->17  PASS
+  CLA blocks (Kumar style)     32 |    752    752   568     24.5 |   304->216   784->616  120->96   90->59     49->33  PASS
+  TSG ripple-carry              4 |     68     68    48     29.4 |     20->16     84->56     4->4     8->7       6->5  PASS
+  TSG ripple-carry              8 |    136    136    96     29.4 |     40->32   168->112     8->8   12->11      10->9  PASS
+  TSG ripple-carry             16 |    272    272   192     29.4 |     80->64   336->224   16->16   20->19     18->17  PASS
+  TSG ripple-carry             32 |    544    544   384     29.4 |   160->128   672->448   32->32   36->35     34->33  PASS
+  Peres ripple-carry            4 |     48     48    48      0.0 |     16->16     56->56     4->4     7->7       5->5  PASS
+  Peres ripple-carry            8 |     96     96    96      0.0 |     32->32   112->112     8->8   11->11       9->9  PASS
+  Peres ripple-carry           16 |    192    192   192      0.0 |     64->64   224->224   16->16   19->19     17->17  PASS
+  Peres ripple-carry           32 |    384    384   384      0.0 |   128->128   448->448   32->32   35->35     33->33  PASS
+  Cuccaro ripple-carry          4 |     57     52    51     10.5 |     25->23     56->49     2->2   22->20       8->7  PASS
+  Cuccaro ripple-carry          8 |    113    108   107      5.3 |     49->47   112->105     2->2   42->40     16->15  PASS
+  Cuccaro ripple-carry         16 |    225    220   219      2.7 |     97->95   224->217     2->2   82->80     32->31  PASS
+  Cuccaro ripple-carry         32 |    449    444   443      1.3 |   193->191   448->441     2->2 162->160     64->63  PASS
+  VBE ripple-carry              4 |     86     78    67     22.1 |     30->19     98->84     5->4   24->13      11->9  PASS
+  VBE ripple-carry              8 |    182    166   155     14.8 |     62->43   210->196     9->8   48->29     23->21  PASS
+  VBE ripple-carry             16 |    374    342   331     11.5 |    126->91   434->420   17->16   96->61     47->45  PASS
+  VBE ripple-carry             32 |    758    694   683      9.9 |   254->187   882->868   33->32 192->125     95->93  PASS
+  Draper carry look-ahead       4 |     61     61    61      0.0 |     21->21     70->70     6->6     9->9       6->6  PASS
+  Draper carry look-ahead       8 |    158    158   158      0.0 |     50->50   189->189   13->13   11->11       8->8  PASS
+  Draper carry look-ahead      16 |    367    367   367      0.0 |   111->111   448->448   28->28   13->13     10->10  PASS
+  Draper carry look-ahead      32 |    800    800   800      0.0 |   236->236   987->987   59->59   15->15     12->12  PASS
+  Rules = cost after the rule-based optimizer alone. All = after every step.
+  PASS = both results proved correct for all inputs (sum, carry, restored lines,
+  clean ancillas where the design requires them).
+  CLA blocks (Kumar style), 32 bits: alias: control moved to an equal line x8, constants: gate never fires x24, garbage: gate removed x48, xor: control rebuilt from other lines x8
+  TSG ripple-carry, 32 bits: constants: gate never fires x32
+  Peres ripple-carry, 32 bits: no step applied
+  Cuccaro ripple-carry, 32 bits: constants: gate never fires x1, rules: Phase 3 rewrites x1
+  VBE ripple-carry, 32 bits: constants: gate never fires x3, rules: Phase 3 rewrites x32
+  Draper carry look-ahead, 32 bits: no step applied
+
+E. Toffoli depth, as built -> simplified
+  Design                          4 bits      8 bits     16 bits     32 bits
+  CLA blocks (Kumar style)          7->5       13->9      25->17      49->33
+  TSG ripple-carry                  6->5       10->9      18->17      34->33
+  Peres ripple-carry                5->5        9->9      17->17      33->33
+  Cuccaro ripple-carry              8->7      16->15      32->31      64->63
+  VBE ripple-carry                 11->9      23->21      47->45      95->93
+  Draper carry look-ahead           6->6        8->8      10->10      12->12
+
+F. RevLib benchmark circuits
+  19 circuits read; cost table reproduces the file headers  PASS  13 of 14 headers exactly
+  Circuit         Lines |       Gates          Cost  Saved % |  With constants and garbage  Result
+  5xp1_194           17 |      85->63    1406->1227     12.7 |                  1406->1226  PASS
+  C7552_205          21 |      80->19     1728->611     64.6 |                   1728->611  PASS
+  add6_196           19 |    229->166    6455->5593     13.4 |                  6455->5593  PASS
+  alu1_198           20 |      32->28      228->208      8.8 |                    228->208  PASS
+  apla_203           22 |      80->62    3438->2943     14.4 |                  3438->2943  PASS
+  c2_181             35 |     116->98      368->366      0.5 |        no constants in file  PASS
+  cm150a_210         22 |      53->38     1096->822     25.0 |                   1096->822  PASS
+  cm151a_211         28 |      33->33      888->888      0.0 |                    888->888  PASS
+  cm163a_213         29 |      39->31      756->726      4.0 |                    756->726  PASS
+  cu_219             25 |      40->29     1148->954     16.9 |                   1148->954  PASS
+  dk17_224           21 |      49->38    1559->1422      8.8 |                  1559->1422  PASS
+  dk27_225           18 |      24->22      248->248      0.0 |                    248->248  PASS
+  example2_231       16 |     157->86    5654->4762     15.8 |                  5654->4762  PASS
+  mlp4_245           16 |     131->90    3753->3465      7.7 |                  3753->3465  PASS
+  mod5adder_306      32 |      96->66      292->263      9.9 |                    292->262  PASS
+  pcler8_248         21 |      22->22      327->327      0.0 |                    327->327  PASS
+  rd73_312           25 |      73->52      217->199      8.3 |                    217->199  PASS
+  rd84_313           34 |     104->68      304->270     11.2 |                    304->270  PASS
+  sym9_317           27 |      62->43      206->189      8.3 |                    206->189  PASS
+  Total                 |  1505->1054  30071->25483     15.3 |                30071->25481
+  Gates, Cost, Saved: rule-based optimizer alone, RevLib cost table.
+  PASS = equal on every line for every input (decision diagrams), confirmed on
+  2,000 random inputs; with constants and garbage, equal primary outputs.
+
+G. Comparison with Qiskit
+  Qiskit version 2.5.2
+  Adders, quantum cost. 'Keeps function' passes preserve every line for every input;
+  'ancilla at 0' passes preserve every line for inputs with ancilla lines at 0.
+  Design                     Bits  As built |  Qiskit  Rules |  Qiskit  This work |  With garbage  Result
+                                            | keeps function |       ancilla at 0 |
+  CLA blocks (Kumar style)      4        94 |      94     94 |      79         79 |            71  PASS
+  CLA blocks (Kumar style)      8       188 |     188    188 |     158        158 |           142  PASS
+  CLA blocks (Kumar style)     16       376 |     376    376 |     316        316 |           284  PASS
+  CLA blocks (Kumar style)     32       752 |     752    752 |     632        632 |           568  PASS
+  TSG ripple-carry              4        68 |      68     68 |      48         48 |            48  PASS
+  TSG ripple-carry              8       136 |     136    136 |      96         96 |            96  PASS
+  TSG ripple-carry             16       272 |     272    272 |     192        192 |           192  PASS
+  TSG ripple-carry             32       544 |     544    544 |     384        384 |           384  PASS
+  Peres ripple-carry            4        48 |      48     48 |      48         48 |            48  PASS
+  Peres ripple-carry            8        96 |      96     96 |      96         96 |            96  PASS
+  Peres ripple-carry           16       192 |     192    192 |     192        192 |           192  PASS
+  Peres ripple-carry           32       384 |     384    384 |     384        384 |           384  PASS
+  Cuccaro ripple-carry          4        57 |      57     52 |      56         51 |            51  PASS
+  Cuccaro ripple-carry          8       113 |     113    108 |     112        107 |           107  PASS
+  Cuccaro ripple-carry         16       225 |     225    220 |     224        219 |           219  PASS
+  Cuccaro ripple-carry         32       449 |     449    444 |     448        443 |           443  PASS
+  VBE ripple-carry              4        86 |      84     78 |      71         67 |            67  PASS
+  VBE ripple-carry              8       182 |     180    166 |     167        155 |           155  PASS
+  VBE ripple-carry             16       374 |     372    342 |     359        331 |           331  PASS
+  VBE ripple-carry             32       758 |     756    694 |     743        683 |           683  PASS
+  Draper carry look-ahead       4        61 |      61     61 |      61         61 |            61  PASS
+  Draper carry look-ahead       8       158 |     158    158 |     158        158 |           158  PASS
+  Draper carry look-ahead      16       367 |     367    367 |     367        367 |           367  PASS
+  Draper carry look-ahead      32       800 |     800    800 |     800        800 |           800  PASS
+  Qiskit, keeps function: InverseCancellation + CommutativeInverseCancellation.
+  Qiskit, ancilla at 0:   HoareOptimizer + the two cancellation passes.
+  With garbage:           all steps of this work; Qiskit has no notion of garbage.
+
+  RevLib circuits, passes that keep the function, RevLib cost table
+  Circuit          As given   Qiskit   Rules  Result
+  5xp1_194             1406     1406    1227  PASS
+  C7552_205            1728     1728     611  PASS
+  add6_196             6455     6455    5593  PASS
+  alu1_198              228      228     208  PASS
+  apla_203             3438     3438    2943  PASS
+  c2_181                368      368     366  PASS
+  cm150a_210           1096     1096     822  PASS
+  cm151a_211            888      888     888  PASS
+  cm163a_213            756      756     726  PASS
+  cu_219               1148     1148     954  PASS
+  dk17_224             1559     1559    1422  PASS
+  dk27_225              248      248     248  PASS
+  example2_231         5654     5654    4762  PASS
+  mlp4_245             3753     3753    3465  PASS
+  mod5adder_306         292      292     263  PASS
+  pcler8_248            327      327     327  PASS
+  rd73_312              217      213     199  PASS
+  rd84_313              304      298     270  PASS
+  sym9_317              206      206     189  PASS
+  Total               30071    30061   25483
+
+Time: 38.3 s
+
+All checks passed.

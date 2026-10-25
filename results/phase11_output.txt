@@ -1,0 +1,104 @@
+Phase 11: ancilla and garbage rules, hybrid adder
+
+A. Soundness of rules A1-A5 on random circuits
+  800 random circuits, primary outputs unchanged              PASS  756 circuits rewritten, 0 wrong
+
+B. Adders: RC alone, RC + rules A1-A5 (local), global simplifier (quantum cost)
+  Design                     Bits  As built     RC   RC+A  Global  Result
+  CLA blocks (Kumar style)      4        94     94     72      71  PASS
+  CLA blocks (Kumar style)      8       188    188    144     142  PASS
+  CLA blocks (Kumar style)     16       376    376    288     284  PASS
+  CLA blocks (Kumar style)     32       752    752    576     568  PASS
+  TSG ripple-carry              4        68     68     48      48  PASS
+  TSG ripple-carry              8       136    136     96      96  PASS
+  TSG ripple-carry             16       272    272    192     192  PASS
+  TSG ripple-carry             32       544    544    384     384  PASS
+  Peres ripple-carry            4        48     48     48      48  PASS
+  Peres ripple-carry            8        96     96     96      96  PASS
+  Peres ripple-carry           16       192    192    192     192  PASS
+  Peres ripple-carry           32       384    384    384     384  PASS
+  Cuccaro ripple-carry          4        57     52     52      51  PASS
+  Cuccaro ripple-carry          8       113    108    108     107  PASS
+  Cuccaro ripple-carry         16       225    220    220     219  PASS
+  Cuccaro ripple-carry         32       449    444    444     443  PASS
+  VBE ripple-carry              4        86     78     67      67  PASS
+  VBE ripple-carry              8       182    166    155     155  PASS
+  VBE ripple-carry             16       374    342    331     331  PASS
+  VBE ripple-carry             32       758    694    683     683  PASS
+  Draper carry look-ahead       4        61     61     61      61  PASS
+  Draper carry look-ahead       8       158    158    158     158  PASS
+  Draper carry look-ahead      16       367    367    367     367  PASS
+  Draper carry look-ahead      32       800    800    800     800  PASS
+  Total                                6780   6640   5966    5947
+  Saving: RC 140, RC+A 814, global 833. The local rules reach 97.7% of the global saving.
+  Rule uses at 32 bits:
+    cla4_blocks  A2 dead gate removed x80, A3a gate never fires x8, A4 literal substituted x16, A5 linear substitution x8
+    tsg_rca      A3a gate never fires x32
+    peres_rca    none
+    cuccaro      RC rewrites x1
+    vbe          A1 gate never fires x3, RC rewrites x32
+    draper_qcla  none
+
+C. Each rule left out in turn, 32-bit adders (quantum cost with RC + the other rules)
+  Design           all  no A1  no A2  no A3  no A4  no A5
+  cla4_blocks      576    576    712    664    576    584
+  tsg_rca          384    384    384    544    384    384
+  peres_rca        384    384    384    384    384    384
+  cuccaro          444    444    444    444    444    444
+  vbe              683    694    683    683    683    683
+  draper_qcla      800    800    800    800    800    800
+
+D. RevLib circuits with constant inputs (RevLib cost table)
+  18 circuits: as given / RC / RC+A / global                  PASS  29703 / 25117 / 25117 / 25115
+
+E. Hybrid carry look-ahead adder (Peres PGA blocks + prefix carries, garbage style)
+  proved correct for every input, n = 2-8, 12, 16, 32         PASS  
+   Bits  Lines  Gates   Cost  T-count  Ancilla  Garbage  Depth  Toffoli depth
+      4     14     18     58       70        5        9      7              5
+      8     29     40    136      168       12       20      9              7
+     16     60     86    302      378       27       43     11              9
+     32    123    180    644      812       58       90     13             11
+  no rule or simplification step changes it                   PASS  
+
+  All designs after all steps. P = Pareto-optimal in (cost, Toffoli depth, ancilla);
+  P+ = Pareto-optimal when T-count and garbage outputs are added.
+  n = 4
+    Design         Cost  T-count  Tof. depth  Ancilla  Garbage   Pareto
+    cla4_blocks      71       77           5       12       16   -
+    tsg_rca          48       56           5        4        8   P P+
+    peres_rca        48       56           5        4        8   P P+
+    cuccaro          51       49           7        2        0   P P+
+    vbe              67       84           9        4        0   -
+    draper_qcla      61       70           6        6        0   - P+
+    hybrid           58       70           5        5        9   -
+  n = 8
+    Design         Cost  T-count  Tof. depth  Ancilla  Garbage   Pareto
+    cla4_blocks     142      154           9       24       32   -
+    tsg_rca          96      112           9        8       16   P P+
+    peres_rca        96      112           9        8       16   P P+
+    cuccaro         107      105          15        2        0   P P+
+    vbe             155      196          21        8        0   -
+    draper_qcla     158      189           8       13        0   - P+
+    hybrid          136      168           7       12       20   P P+
+  n = 16
+    Design         Cost  T-count  Tof. depth  Ancilla  Garbage   Pareto
+    cla4_blocks     284      308          17       48       64   -
+    tsg_rca         192      224          17       16       32   P P+
+    peres_rca       192      224          17       16       32   P P+
+    cuccaro         219      217          31        2        0   P P+
+    vbe             331      420          45       16        0   -
+    draper_qcla     367      448          10       28        0   - P+
+    hybrid          302      378           9       27       43   P P+
+  n = 32
+    Design         Cost  T-count  Tof. depth  Ancilla  Garbage   Pareto
+    cla4_blocks     568      616          33       96      128   -
+    tsg_rca         384      448          33       32       64   P P+
+    peres_rca       384      448          33       32       64   P P+
+    cuccaro         443      441          63        2        0   P P+
+    vbe             683      868          93       32        0   -
+    draper_qcla     800      987          12       59        0   - P+
+    hybrid          644      812          11       58       90   P P+
+
+Time: 21.2 s
+
+All checks passed.

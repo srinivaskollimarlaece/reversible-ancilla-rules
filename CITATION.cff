@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Local rewrite rules for reversible circuits with ancilla and garbage lines: code, notebooks and Verilog"
+type: software
+version: 1.0.0
+date-released: 2026-10-24
+license: MIT
+repository-code: "https://github.com/srinivaskollimarlaece/reversible-ancilla-rules"
+authors:
+  - family-names: "Srinivasa Rao"
+    given-names: "K."
+    affiliation: "JNTUA College of Engineering Ananthapuramu"
+    orcid: "https://orcid.org/0000-0001-5076-0591"
+  - family-names: "Bharath"
+    given-names: "Pappuleti"
+keywords:
+  - reversible logic
+  - transformation rules
+  - ancilla lines
+  - circuit optimization
+  - carry look-ahead adder
+  - quantum cost
